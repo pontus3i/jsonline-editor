@@ -10,33 +10,26 @@ import {
 } from 'solidjs-remixicon'
 import { TextArea } from "./TextArea"
 import { createSignal } from "solid-js"
-import { settingsStore } from "../settings-store"
-import { setLineStore } from "../lines-store"
-import { plainTextToHtml } from "../utils"
+import { lineStore, setLineStore } from "../lines-store"
+import { plainTextToHtml, htmlToPlainText } from "../utils"
 
-import type { Component } from "solid-js"
-import type { InputHandler } from "../types"
+import type { InputHandler, Message } from "../types"
+import type { CreateModalProps } from "./CreateModal"
+import type { Component, Accessor } from 'solid-js'
 
-export interface CreateModalProps {
-	open: boolean
-	close(): void
+export interface EditModalProps extends CreateModalProps, Message {
+	index: Accessor<number>
 }
-export type CreateModalComponent = Component<CreateModalProps>
+export type EditModalComponent = Component<EditModalProps>
 
-export const CreateModal: CreateModalComponent = props => {
-	const [systemMessage, setSystemMessage] = createSignal(settingsStore.defaultSystemMessage)
-	const [assistantMessage, setAssistantMessage] = createSignal('')
-	const [userMessage, setUserMessage] = createSignal('')
+export const EditModal: EditModalComponent = props => {
+	const [systemMessage, setSystemMessage] = createSignal(htmlToPlainText(props.systemMessage))
+	const [assistantMessage, setAssistantMessage] = createSignal(htmlToPlainText(props.assistantMessage))
+	const [userMessage, setUserMessage] = createSignal(htmlToPlainText(props.userMessage))
 
 	const handleSystemMessage: InputHandler = event => setSystemMessage(event.currentTarget.value)
 	const handleAssistantMessage: InputHandler = event => setAssistantMessage(event.currentTarget.value)
 	const handleUserMessage: InputHandler = event => setUserMessage(event.currentTarget.value)
-
-	function resetForm() {
-		setSystemMessage(settingsStore.defaultSystemMessage)
-		setAssistantMessage('')
-		setUserMessage('')
-	}
 
 	function submitCreateForm(event: Event) {
 		event.preventDefault()
@@ -44,23 +37,21 @@ export const CreateModal: CreateModalComponent = props => {
 		setUserMessage(plainTextToHtml(userMessage()))
 		setAssistantMessage(plainTextToHtml(assistantMessage()))
 
-		setLineStore('lines', current => [
-			...current,
-			{
-				systemMessage: systemMessage(),
-				assistantMessage: assistantMessage(),
-				userMessage: userMessage(),
-			},
-		])
+		const lines = [...lineStore.lines];
+		lines[props.index()] = {
+			systemMessage: systemMessage(),
+			userMessage: userMessage(),
+			assistantMessage: assistantMessage(),
+		}
 
+		setLineStore('lines', () => lines)
 		props.close()
-		resetForm()
 	}
 
 	return <Dialog
 		open={props.open}
 		close={props.close}
-		title="Create"
+		title="Edit line"
 		icon={<RiAddLine />}
 		backdropClose
 	>
@@ -96,7 +87,7 @@ export const CreateModal: CreateModalComponent = props => {
 				<FilledButton
 					icon={<RiAddLine />}
 					type='submit'
-				>Create</FilledButton>
+				>Save</FilledButton>
 			</Spacer>
 		</form>
 	</Dialog>

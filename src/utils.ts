@@ -1,10 +1,14 @@
 import { lineStore, setLineStore } from "./lines-store"
 import { JsonlMessage, Message } from "./types"
 
-export function planTextToHtml(planText: string) {
+export function plainTextToHtml(planText: string) {
     planText = planText.replace(/\n/g, '<br />')
-
     return planText
+}
+
+export function htmlToPlainText(html: string) {
+    html = html.replace(/<br \/>/g, '\n')
+    return html
 }
 
 export function exportToJsonl(): string {
