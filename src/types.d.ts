@@ -6,4 +6,13 @@ export interface Message {
 	userMessage: string
 }
 
+export interface JsonlMessageData {
+	role: 'system' | 'user' | 'assistant'
+	content: string
+}
+
+export interface JsonlMessage {
+	messages: JsonlMessageData[]
+}
+
 type InputHandler = JSX.EventHandlerUnion<HTMLTextAreaElement, Event>
