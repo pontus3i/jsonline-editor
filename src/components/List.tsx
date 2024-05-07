@@ -18,9 +18,9 @@ export const List = () => {
 				<For each={lineStore.lines}>
 					{(msg, index) => <tr>
 						<td>{index()}</td>
-						<td>{msg.systemMessage}</td>
-						<td>{msg.userMessage}</td>
-						<td>{msg.assistantMessage}</td>
+						<td innerHTML={msg.systemMessage} />
+						<td innerHTML={msg.userMessage} />
+						<td innerHTML={msg.assistantMessage} />
 					</tr>}
 				</For>
 			</tbody>

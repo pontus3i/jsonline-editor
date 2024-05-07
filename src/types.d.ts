@@ -6,4 +6,4 @@ export interface Message {
 	userMessage: string
 }
 
-type InputHandler = JSX.EventHandlerUnion<HTMLInputElement, InputEvent>
+type InputHandler = JSX.EventHandlerUnion<HTMLTextAreaElement, Event>

@@ -39,3 +39,14 @@ html, body {
 		}
 	}
 }
+
+.textarea {
+	position: relative;
+	width: 100%;
+	border: 1px solid var(--vuuui-color-border);
+	border-radius: 16px;
+	padding: 1rem;
+	font-family: inherit;
+	font-size: inherit;
+	height: 200px;
+}

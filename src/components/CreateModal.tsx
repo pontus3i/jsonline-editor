@@ -1,20 +1,18 @@
 import {
 	Dialog,
 	Spacer,
-	TextInput,
 	TextButton,
 	FilledButton,
 } from "@vuuui/solidjs"
 import {
 	RiAddLine,
-	RiDatabase2Line,
-	RiRobot2Line,
-	RiChatSmile2Line,
 	RiCloseLine,
 } from 'solidjs-remixicon'
+import { TextArea } from "./TextArea"
 import { createSignal } from "solid-js"
 import { settingsStore } from "../settings-store"
 import { setLineStore } from "../lines-store"
+import { planTextToHtml } from "../utils"
 
 import type { Component } from "solid-js"
 import type { InputHandler } from "../types"
@@ -42,6 +40,9 @@ export const CreateModal: CreateModalComponent = props => {
 
 	function submitCreateForm(event: Event) {
 		event.preventDefault()
+		setSystemMessage(planTextToHtml(systemMessage()))
+		setUserMessage(planTextToHtml(userMessage()))
+		setAssistantMessage(planTextToHtml(assistantMessage()))
 
 		setLineStore('lines', current => [
 			...current,
@@ -65,28 +66,25 @@ export const CreateModal: CreateModalComponent = props => {
 	>
 		<form onSubmit={submitCreateForm}>
 			<Spacer justify="right">
-				<TextInput
-					icon={<RiDatabase2Line />}
-					placeholder="System message"
+				<p>System message</p>
+				<TextArea
 					value={systemMessage()}
 					required
-					onInput={handleSystemMessage}
+					onChange={handleSystemMessage}
 				/>
 
-				<TextInput
-					icon={<RiChatSmile2Line />}
-					placeholder="User message"
+				<p>User message</p>
+				<TextArea
 					value={userMessage()}
 					required
 					onInput={handleUserMessage}
 				/>
 
-				<TextInput
-					icon={<RiRobot2Line />}
-					placeholder="Assistant message"
+				<p>Assistant message</p>
+				<TextArea
 					value={assistantMessage()}
 					required
-					onInput={handleAssistantMessage}
+					onChange={handleAssistantMessage}
 				/>
 
 				<TextButton
