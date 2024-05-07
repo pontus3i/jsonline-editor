@@ -1,16 +1,15 @@
 import {
 	Dialog,
 	Spacer,
-	TextInput,
 	FilledButton,
 	TextButton,
 } from "@vuuui/solidjs"
 import {
 	RiSettingsLine,
-	RiDatabase2Line,
 	RiCloseLine,
 	RiSaveLine,
 } from 'solidjs-remixicon'
+import { TextArea } from "./TextArea"
 import { settingsStore, setSettingsStore } from "../settings-store"
 import { createSignal } from "solid-js"
 
@@ -45,11 +44,10 @@ export const Settings: SettingsComponent = props => {
 	>
 		<form onSubmit={saveSettings}>
 			<Spacer justify='right'>
-				<TextInput
-					icon={<RiDatabase2Line />}
-					placeholder="Default system message"
+				<p>Default system message</p>
+				<TextArea
 					value={defaultSystemMessage()}
-					onInput={onDefaultSystemMessageInput}
+					onChange={onDefaultSystemMessageInput}
 				/>
 
 				<TextButton
