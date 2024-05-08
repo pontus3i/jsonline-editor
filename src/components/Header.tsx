@@ -42,28 +42,30 @@ export const Header = () => {
 	const [settingsOpen, setSettingsOpen] = createSignal(false)
 	const [createModalOpen, setCreateModalOpen] = createSignal(false)
 
-	return <Container class='app-header'>
-		<Spacer justify="center">
-			<ElevatedButton
-				icon={<RiFileUploadLine />}
-				onClick={importJsonlFile}
-			>Open</ElevatedButton>
+	return <>
+		<Container class='app-header'>
+			<Spacer justify="center">
+				<ElevatedButton
+					icon={<RiFileUploadLine />}
+					onClick={importJsonlFile}
+				>Open</ElevatedButton>
 
-			<ElevatedButton
-				icon={<RiFileDownloadLine />}
-				onClick={downloadJsonl}
-			>Save</ElevatedButton>
+				<ElevatedButton
+					icon={<RiFileDownloadLine />}
+					onClick={downloadJsonl}
+				>Save</ElevatedButton>
 
-			<OutlinedButton
-				icon={<RiSettingsLine />}
-				onClick={() => setSettingsOpen(true)}
-			>Settings</OutlinedButton>
+				<OutlinedButton
+					icon={<RiSettingsLine />}
+					onClick={() => setSettingsOpen(true)}
+				>Settings</OutlinedButton>
 
-			<FilledButton
-				icon={<RiAddLine />}
-				onClick={() => setCreateModalOpen(true)}
-			>Create</FilledButton>
-		</Spacer>
+				<FilledButton
+					icon={<RiAddLine />}
+					onClick={() => setCreateModalOpen(true)}
+				>Create</FilledButton>
+			</Spacer>
+		</Container>
 
 		<Settings
 			open={settingsOpen()}
@@ -74,5 +76,5 @@ export const Header = () => {
 			open={createModalOpen()}
 			close={() => setCreateModalOpen(false)}
 		/>
-	</Container>
+	</>
 }
