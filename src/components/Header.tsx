@@ -42,7 +42,7 @@ export const Header = () => {
 	const [settingsOpen, setSettingsOpen] = createSignal(false)
 	const [createModalOpen, setCreateModalOpen] = createSignal(false)
 
-	return <Container>
+	return <Container class='app-header'>
 		<Spacer justify="center">
 			<ElevatedButton
 				icon={<RiFileUploadLine />}
