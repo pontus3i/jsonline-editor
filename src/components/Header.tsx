@@ -40,6 +40,8 @@ function downloadJsonl() {
 }
 
 function clearLines() {
+	if (!confirm('Confirm?')) return
+
 	setLineStore('lines', [])
 }
 
