@@ -9,11 +9,12 @@ import {
 	RiFileUploadLine,
 	RiFileDownloadLine,
 	RiSettingsLine,
-	RiAddLine,
+	RiAddLine, RiEraserLine,
 } from 'solidjs-remixicon'
 import { Settings } from "./Settings"
 import { CreateModal } from './CreateModal'
 import { exportToJsonl, importJsonl } from '../utils'
+import { setLineStore } from '../lines-store'
 
 function importJsonlFile() {
 	const inputEl = document.createElement('input')
@@ -38,32 +39,43 @@ function downloadJsonl() {
 	aEl.click()
 }
 
+function clearLines() {
+	setLineStore('lines', [])
+}
+
 export const Header = () => {
 	const [settingsOpen, setSettingsOpen] = createSignal(false)
 	const [createModalOpen, setCreateModalOpen] = createSignal(false)
 
-	return <Container>
-		<Spacer justify="center">
-			<ElevatedButton
-				icon={<RiFileUploadLine />}
-				onClick={importJsonlFile}
-			>Open</ElevatedButton>
+	return <>
+		<Container class='app-header'>
+			<Spacer justify="center">
+				<ElevatedButton
+					icon={<RiFileUploadLine />}
+					onClick={importJsonlFile}
+				>Open</ElevatedButton>
 
-			<ElevatedButton
-				icon={<RiFileDownloadLine />}
-				onClick={downloadJsonl}
-			>Save</ElevatedButton>
+				<ElevatedButton
+					icon={<RiFileDownloadLine />}
+					onClick={downloadJsonl}
+				>Save</ElevatedButton>
 
-			<OutlinedButton
-				icon={<RiSettingsLine />}
-				onClick={() => setSettingsOpen(true)}
-			>Settings</OutlinedButton>
+				<OutlinedButton
+					icon={<RiSettingsLine />}
+					onClick={() => setSettingsOpen(true)}
+				>Settings</OutlinedButton>
 
-			<FilledButton
-				icon={<RiAddLine />}
-				onClick={() => setCreateModalOpen(true)}
-			>Create</FilledButton>
-		</Spacer>
+				<OutlinedButton
+					icon={<RiEraserLine />}
+					onClick={() => clearLines()}
+				>Clear</OutlinedButton>
+
+				<FilledButton
+					icon={<RiAddLine />}
+					onClick={() => setCreateModalOpen(true)}
+				>Create</FilledButton>
+			</Spacer>
+		</Container>
 
 		<Settings
 			open={settingsOpen()}
@@ -74,5 +86,5 @@ export const Header = () => {
 			open={createModalOpen()}
 			close={() => setCreateModalOpen(false)}
 		/>
-	</Container>
+	</>
 }
