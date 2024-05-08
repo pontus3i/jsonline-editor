@@ -1,5 +1,29 @@
 import { lineStore, setLineStore } from "./lines-store"
-import { JsonlMessage, Message } from "./types"
+import { settingsStore, setSettingsStore } from "./settings-store"
+import type { AppStateData, JsonlMessage, Message } from "./types"
+
+const APP_STATE_KEY = "app-state"
+let appStateData: AppStateData = {
+    defaultSystemMessage: 'Bạn là một trợ lý cute hột me',
+    messages: [],
+}
+
+export function storeAppState() {
+    appStateData.defaultSystemMessage = settingsStore.defaultSystemMessage
+    appStateData.messages = lineStore.lines
+
+    const json = JSON.stringify(appStateData)
+    localStorage.setItem(APP_STATE_KEY, json)
+}
+
+export function loadAppState() {
+    const json = localStorage.getItem(APP_STATE_KEY)
+    if (!json) return
+
+    appStateData = JSON.parse(json)
+    setSettingsStore('defaultSystemMessage', appStateData.defaultSystemMessage)
+    setLineStore('lines', appStateData.messages)
+}
 
 export function plainTextToHtml(planText: string) {
     planText = planText.replace(/\n/g, '<br />')
