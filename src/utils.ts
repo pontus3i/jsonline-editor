@@ -61,13 +61,19 @@ export function importJsonl(jsonl: string) {
     const messages: Message[] = [];
 
     lines.forEach(line => {
-        const jsonlMessage: JsonlMessage = JSON.parse(line)
-        console.log(jsonlMessage);
-        messages.push({
-            systemMessage: jsonlMessage.messages[0].content,
-            userMessage: jsonlMessage.messages[1].content,
-            assistantMessage: jsonlMessage.messages[2].content,
-        })
+        if (!line) return
+
+        try {
+            const jsonlMessage: JsonlMessage = JSON.parse(line)
+
+            messages.push({
+                systemMessage: jsonlMessage.messages[0].content,
+                userMessage: jsonlMessage.messages[1].content,
+                assistantMessage: jsonlMessage.messages[2].content,
+            })
+        } catch(e) {
+            console.error(e)
+        }
     })
 
     setLineStore('lines', current => [
