@@ -4,12 +4,14 @@ import {
 	ElevatedButton,
 	FilledButton,
 	OutlinedButton,
+	TextButton,
 } from "@vuuui/solidjs"
 import {
 	RiFileUploadLine,
 	RiFileDownloadLine,
 	RiSettingsLine,
 	RiAddLine, RiEraserLine,
+	RiArrowGoForwardLine, RiArrowGoBackLine,
 } from 'solidjs-remixicon'
 import { Settings } from "./Settings"
 import { CreateModal } from './CreateModal'
@@ -76,6 +78,16 @@ export const Header = () => {
 					icon={<RiAddLine />}
 					onClick={() => setCreateModalOpen(true)}
 				>Create</FilledButton>
+
+				<TextButton
+					icon={<RiArrowGoForwardLine />}
+					disabled
+				>Redo</TextButton>
+
+				<TextButton
+					icon={<RiArrowGoBackLine />}
+					disabled
+				>Undo</TextButton>
 			</Spacer>
 		</Container>
 
