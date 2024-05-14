@@ -1,6 +1,9 @@
 import { lineStore, setLineStore } from "./lines-store"
 import { settingsStore, setSettingsStore } from "./settings-store"
+import TurndownService from 'turndown';
 import type { AppStateData, JsonlMessage, Message } from "./types"
+
+const turndown = new TurndownService();
 
 const APP_STATE_KEY = "app-state"
 let appStateData: AppStateData = {
@@ -35,6 +38,10 @@ export function htmlToPlainText(html: string) {
     return html
 }
 
+export function htmlToMarkdown(html: string) {
+    return turndown.turndown(html);
+}
+
 export function exportToJsonl(): string {
     const lines = lineStore.lines.map(message => JSON.stringify({
         messages: [
@@ -48,7 +55,7 @@ export function exportToJsonl(): string {
             },
             {
                 role: 'assistant',
-                content: message.assistantMessage,
+                content: htmlToMarkdown(message.assistantMessage),
             },
         ]
     }))
